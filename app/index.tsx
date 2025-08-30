@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
 
   // Subject Cards
   card: {
-    width: 180,
+    width: 280,
     height: 160,
     borderRadius: 24,
     marginRight: 16,
