@@ -1,6 +1,6 @@
+import { useRouter } from "expo-router"; // si estás usando expo-router
 import React from "react";
 import {
-  Alert,
   ImageBackground,
   SafeAreaView,
   ScrollView,
@@ -10,16 +10,19 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useCounterStore } from "../src/store/useSelected"; // ajusta la ruta según tu proyecto
 
 export default function MathematicsApp() {
-  // Datos de las tarjetas de matemáticas
+  const { setTopic } = useCounterStore();
+  const router = useRouter();
+
   const mathCards = [
     {
       id: 1,
       title: "Geometría y medición",
       backgroundImage:
         "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=300&fit=crop",
-      color: "#6366f1", // Índigo
+      color: "#6366f1",
       description: "Formas, espacios y medidas",
     },
     {
@@ -27,7 +30,7 @@ export default function MathematicsApp() {
       title: "Álgebra y Cálculo",
       backgroundImage:
         "https://images.unsplash.com/photo-1635070041409-8e5ae99d8d5c?w=400&h=300&fit=crop",
-      color: "#dc2626", // Rojo
+      color: "#dc2626",
       description: "Ecuaciones y funciones",
     },
     {
@@ -35,16 +38,17 @@ export default function MathematicsApp() {
       title: "Estadística y Probabilidad",
       backgroundImage:
         "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-      color: "#059669", // Verde
+      color: "#059669",
       description: "Datos y análisis",
     },
   ];
 
   const handleCardPress = (card) => {
-    Alert.alert(card.title, `Has seleccionado: ${card.description}`, [
-      { text: "Cancelar", style: "cancel" },
-      { text: "Abrir", onPress: () => console.log(`Abriendo ${card.title}`) },
-    ]);
+    // guardar el tema en Zustand
+    setTopic(card.title);
+
+    // navegar a Slice
+    router.push("/Slices"); // ajusta la ruta según tu estructura
   };
 
   const renderMathCard = (card) => (
@@ -59,15 +63,10 @@ export default function MathematicsApp() {
         style={styles.cardBackground}
         imageStyle={styles.backgroundImage}
       >
-        {/* Overlay para oscurecer la imagen */}
         <View style={styles.overlay} />
-
-        {/* Contenedor del título con borde blanco redondeado */}
         <View style={styles.titleContainer}>
           <Text style={styles.cardTitle}>{card.title}</Text>
         </View>
-
-        {/* Indicador de color en la esquina */}
         <View
           style={[styles.colorIndicator, { backgroundColor: card.color }]}
         />
@@ -78,25 +77,19 @@ export default function MathematicsApp() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
-
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>📐 Matemáticas</Text>
           <Text style={styles.headerSubtitle}>
             Selecciona una área de estudio
           </Text>
         </View>
-
-        {/* Tarjetas de matemáticas */}
         <View style={styles.cardsContainer}>
           {mathCards.map(renderMathCard)}
         </View>
-
-        {/* Footer opcional */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
             Explora las diferentes ramas de las matemáticas

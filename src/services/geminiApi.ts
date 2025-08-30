@@ -81,8 +81,9 @@ export async function fetchEducationalContent(
         parts: [
           {
             text: `Genera contenido educativo sobre "${topic}" para el ICFES. 
-
-IMPORTANTE: Responde ÚNICAMENTE con un JSON válido siguiendo esta estructura exacta:
+RESPONDE ÚNICAMENTE CON UN JSON VÁLIDO siguiendo esta estructura EXACTA y SIN NINGÚN OTRO TEXTO, COMENTARIO, EXPLICACIÓN NI CARACTER ADICIONAL. 
+NO uses markdown, NO incluyas "", NO agregues notas, saludos ni aclaraciones. SOLO el JSON plano.
+Estructura obligatoria (NO PUEDE CAMBIAR):
 {
   "content": [
     {
@@ -94,7 +95,17 @@ IMPORTANTE: Responde ÚNICAMENTE con un JSON válido siguiendo esta estructura e
   ]
 }
 
-No incluyas markdown, explicaciones adicionales, ni texto fuera del JSON.`,
+REGLAS ESTRICTAS:
+1. Devuelve ÚNICAMENTE el JSON válido.
+2. El JSON debe cumplir exactamente la estructura indicada (misma jerarquía, mismos nombres de campos, tipos correctos).
+3. No debe existir NINGÚN texto antes o después del JSON.
+4. "slice" SIEMPRE es un número entero empezando en 1.
+5. "titulo" es un string no vacío.
+6. "texto" es un string con explicación detallada sobre el tema.
+7. "imagenes" es SIEMPRE un array (vacío o con URLs válidas en string).
+8. El formato debe ser 100% válido para parsear en JSON.parse sin modificaciones.
+
+Cualquier incumplimiento de estas reglas significa error.`,
           },
         ],
       },

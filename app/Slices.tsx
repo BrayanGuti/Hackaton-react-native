@@ -1,47 +1,41 @@
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React from "react";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import ContentCarousel from "../src/components/ContentCarousel";
 import EmptyState from "../src/components/EmptyState";
 import ErrorState from "../src/components/ErrorState";
 import LoadingState from "../src/components/LoadingState";
-import SearchHeader from "../src/components/SearchHeader";
 import { useEducationalContent } from "../src/hooks/useEducationalContent";
+import { useCounterStore } from "../src/store/useSelected"; // ✅ Zustand
 
 export default function AboutScreen() {
-  const [topic, setTopic] = useState("");
-  const [searchTopic, setSearchTopic] = useState("");
+  // obtenemos el topic global desde Zustand
+  const { topic } = useCounterStore();
 
-  const { data, isLoading, error, isError } =
-    useEducationalContent(searchTopic);
-
-  const handleSearch = () => {
-    if (topic.trim()) {
-      setSearchTopic(topic.trim());
-    }
-  };
+  // hook con el topic global
+  const { data, isLoading, error, isError } = useEducationalContent(
+    topic?.replace(/\s+/g, " ").trim()
+  );
 
   return (
-    <View style={styles.container}>
-      <SearchHeader
-        topic={topic}
-        setTopic={setTopic}
-        onSearch={handleSearch}
-        isLoading={isLoading}
-      />
-
-      {isLoading && <LoadingState />}
-      {isError && <ErrorState error={error} />}
-      {data && <ContentCarousel data={data} searchTopic={searchTopic} />}
-      {!isLoading && !isError && !data && searchTopic && (
-        <EmptyState searchTopic={searchTopic} />
-      )}
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        {isLoading && <LoadingState />}
+        {isError && <ErrorState error={error} />}
+        {data && <ContentCarousel data={data} searchTopic={topic} />}
+        {!isLoading && !isError && !data && topic && (
+          <EmptyState searchTopic={topic} />
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
     backgroundColor: "#f8f9fa",
+  },
+  container: {
+    flex: 1,
   },
 });

@@ -2,7 +2,6 @@ import React, { useCallback, useRef, useState } from "react";
 import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import ContentSlice from "./ContentSlice";
 import EmptyState from "./EmptyState";
-import NavigationControls from "./NavigationControls";
 
 const { width } = Dimensions.get("window");
 const SLICE_WIDTH = width - 40;
@@ -50,7 +49,7 @@ const ContentCarousel = ({ data, searchTopic }) => {
       <View style={styles.carouselHeader}>
         <Text style={styles.resultTitle}>📚 {searchTopic}</Text>
         <Text style={styles.swipeHint}>
-          👆 Desliza horizontalmente para navegar
+          Desliza horizontalmente para navegar
         </Text>
       </View>
 
@@ -75,19 +74,6 @@ const ContentCarousel = ({ data, searchTopic }) => {
           index,
         })}
       />
-
-      <NavigationControls
-        currentIndex={currentIndex}
-        totalSlices={data.content.length}
-        onPrevious={handlePrevious}
-        onNext={handleNext}
-      />
-
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>
-          ✅ Contenido oficial ICFES Saber 11
-        </Text>
-      </View>
     </View>
   );
 };
