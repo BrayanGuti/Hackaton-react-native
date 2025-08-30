@@ -1,37 +1,44 @@
-import React from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
+import React from "react";
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const subjects = [
-  { 
-    id: "1", 
-    name: "Matemáticas", 
-    color: "#667EEA", 
-    icon: "📘"
+  {
+    id: "1",
+    name: "Matemáticas",
+    color: "#667EEA",
+    icon: "📘",
   },
-  { 
-    id: "2", 
-    name: "Lectura Crítica", 
-    color: "#764BA2", 
-    icon: "📖"
+  {
+    id: "2",
+    name: "Lectura Crítica",
+    color: "#764BA2",
+    icon: "📖",
   },
-  { 
-    id: "3", 
-    name: "Sociales y Ciudadanas", 
-    color: "#F093FB", 
-    icon: "🌍"
+  {
+    id: "3",
+    name: "Sociales y Ciudadanas",
+    color: "#F093FB",
+    icon: "🌍",
   },
-  { 
-    id: "4", 
-    name: "Ciencias Naturales", 
-    color: "#4FACFE", 
-    icon: "🔬"
+  {
+    id: "4",
+    name: "Ciencias Naturales",
+    color: "#4FACFE",
+    icon: "🔬",
   },
-  { 
-    id: "5", 
-    name: "Inglés", 
-    color: "#43E97B", 
-    icon: "🗣️"
+  {
+    id: "5",
+    name: "Inglés",
+    color: "#43E97B",
+    icon: "🗣️",
   },
 ];
 
@@ -41,8 +48,8 @@ export default function Dashboard() {
   const handleSubjectPress = (subject: any) => {
     // Navigate to AboutScreen with subject parameter
     router.push({
-      pathname: "/AboutScreen",
-      params: { selectedSubject: subject.name }
+      pathname: "/SelectSubject",
+      params: { selectedSubject: subject.name },
     });
   };
 
@@ -83,7 +90,8 @@ export default function Dashboard() {
             <View style={styles.premiumTextContainer}>
               <Text style={styles.premiumTitle}>Desbloquea Premium</Text>
               <Text style={styles.premiumText}>
-                Vidas infinitas, estadísticas detalladas y acceso completo a preguntas
+                Vidas infinitas, estadísticas detalladas y acceso completo a
+                preguntas
               </Text>
             </View>
             <View style={styles.premiumArrow}>
@@ -113,7 +121,9 @@ export default function Dashboard() {
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Practicar</Text>
-          <Text style={styles.sectionSubtitle}>Pon a prueba tus conocimientos</Text>
+          <Text style={styles.sectionSubtitle}>
+            Pon a prueba tus conocimientos
+          </Text>
         </View>
         <FlatList
           data={subjects}
@@ -136,7 +146,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8FAFC",
   },
-  
+
   // Header Styles
   header: {
     flexDirection: "row",
