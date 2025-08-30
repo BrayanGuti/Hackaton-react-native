@@ -1,16 +1,40 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import ContentCarousel from "../src/components/ContentCarousel";
+import EmptyState from "../src/components/EmptyState";
+import ErrorState from "../src/components/ErrorState";
+import LoadingState from "../src/components/LoadingState";
+import SearchHeader from "../src/components/SearchHeader";
+import { useEducationalContent } from "../src/hooks/useEducationalContent";
 
 export default function AboutScreen() {
+  const [topic, setTopic] = useState("");
+  const [searchTopic, setSearchTopic] = useState("");
+
+  const { data, isLoading, error, isError } =
+    useEducationalContent(searchTopic);
+
+  const handleSearch = () => {
+    if (topic.trim()) {
+      setSearchTopic(topic.trim());
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Acerca de</Text>
-      <Text style={styles.description}>
-        Esta es una nueva pantalla en tu aplicación de React Native con Expo
-        Router.
-      </Text>
+      <SearchHeader
+        topic={topic}
+        setTopic={setTopic}
+        onSearch={handleSearch}
+        isLoading={isLoading}
+      />
 
-      {/* Link para regresar */}
+      {isLoading && <LoadingState />}
+      {isError && <ErrorState error={error} />}
+      {data && <ContentCarousel data={data} searchTopic={searchTopic} />}
+      {!isLoading && !isError && !data && searchTopic && (
+        <EmptyState searchTopic={searchTopic} />
+      )}
     </View>
   );
 }
@@ -18,33 +42,6 @@ export default function AboutScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-    padding: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#333",
-  },
-  description: {
-    fontSize: 16,
-    color: "#666",
-    textAlign: "center",
-    lineHeight: 24,
-    marginBottom: 40,
-  },
-  link: {
-    backgroundColor: "#28a745",
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  linkText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "500",
+    backgroundColor: "#f8f9fa",
   },
 });
